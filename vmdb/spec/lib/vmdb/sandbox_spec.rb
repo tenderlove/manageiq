@@ -124,5 +124,31 @@ describe Vmdb::Sandbox do
       sb = Vmdb::Sandbox.new(:imports => false)
       expect(sb.imports).to eq(nil)
     end
+
+    context 'reset' do
+      it 'nils out current_page' do
+        sb = Vmdb::Sandbox.new(:current_page => 'foo')
+        sb.reset!
+        expect(sb.current_page).to be_nil
+      end
+
+      it 'removes current_page from to_hash' do
+        sb = Vmdb::Sandbox.new(:current_page => 'foo')
+        sb.reset!
+        expect(sb.to_hash.key?(:current_page)).to be(false)
+      end
+
+      it 'nils out perf_options' do
+        sb = Vmdb::Sandbox.new(:perf_options => {})
+        sb.reset!
+        expect(sb.perf_options).to be_nil
+      end
+
+      it 'removes perf_options from to_hash' do
+        sb = Vmdb::Sandbox.new(:perf_options => {})
+        sb.reset!
+        expect(sb.to_hash.key?(:perf_options)).to be(false)
+      end
+    end
   end
 end

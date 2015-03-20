@@ -36,14 +36,29 @@ module Vmdb
 
     def to_hash
       copy = @sb.dup
-      copy[:perf_options]   = perf_options.deep_clone
-      copy[:current_page]   = current_page
+      if perf_options
+        copy[:perf_options]   = perf_options.deep_clone
+      else
+        copy.delete :perf_options
+      end
+
+      if current_page
+        copy[:current_page] = current_page
+      else
+        copy.delete :current_page
+      end
+
       copy[:search_text]    = search_text
       copy[:detail_sortcol] = detail_sortcol
       copy[:detail_sortdir] = detail_sortdir
       copy[:tree_hosts]     = tree_hosts
       copy[:tree_vms]       = tree_vms
       copy
+    end
+
+    def reset!
+      self.current_page = nil
+      self.perf_options = nil
     end
 
     private
