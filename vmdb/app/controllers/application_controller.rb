@@ -2230,22 +2230,26 @@ class ApplicationController < ActionController::Base
     prov_redirect("publish")
   end
 
+  def get_sandbox
+    # Get/init sandbox (@sb) per controller in the session object
+    session[:sandboxes] ||= HashWithIndifferentAccess.new
+    Vmdb::Sandbox.create session[:sandboxes][controller_name]
+  end
+
   def get_global_session_data
     # Set the current userid in the User class for this thread for models to use
     User.current_userid = session[:userid]
 
-    # Get/init sandbox (@sb) per controller in the session object
-    session[:sandboxes] ||= HashWithIndifferentAccess.new
-    @sb = session[:sandboxes][controller_name].blank? ? Hash.new : copy_hash(session[:sandboxes][controller_name])
+    @sb = get_sandbox
 
     # Init view sandbox variables
-    @current_page = @sb[:current_page]                                              # current page number
-    @search_text = @sb[:search_text]                                                # search text
-    @detail_sortcol = @sb[:detail_sortcol] == nil ? 0 : @sb[:detail_sortcol].to_i   # sort column for detail lists
-    @detail_sortdir = @sb[:detail_sortdir] == nil ? "ASC" : @sb[:detail_sortdir]    # sort column for detail lists
+    @current_page = @sb.current_page                                              # current page number
+    @search_text = @sb.search_text                                                # search text
+    @detail_sortcol = @sb.detail_sortcol   # sort column for detail lists
+    @detail_sortdir = @sb.detail_sortdir   # sort column for detail lists
 
     # Get performance hash, if it is in the sandbox for the running controller
-    @perf_options = @sb[:perf_options] ? copy_hash(@sb[:perf_options]) : Hash.new
+    @perf_options = @sb.perf_options
 
     # Set window width/height for views to use
     @winW = session[:winW] ? session[:winW].to_i : 1330
@@ -2451,7 +2455,7 @@ class ApplicationController < ActionController::Base
 
   def set_global_session_data
     Picture.sync_to_disk(@pictures_to_sync) if @pictures_to_sync
-    @sb ||= Hash.new
+    @sb ||= get_sandbox
     # Set all of the global variables used by most of the controllers
     session[:layout] = @layout
     session[:panels] = @panels
@@ -2518,7 +2522,7 @@ class ApplicationController < ActionController::Base
     session[:css] = @css
 
     # Save/reset session variables based on @variable presence
-    session[:imports] = @sb[:imports] ? @sb[:imports] : nil # Imported file data from 2 stage import
+    session[:imports] = @sb.imports # Imported file data from 2 stage import
 
     # Save @edit and @view in session, if present
     if @lastaction == "show_list" || params[:action] == "tree_autoload"   # If show_list was the last screen presented or tree is being autoloaded save @edit
@@ -2534,27 +2538,26 @@ class ApplicationController < ActionController::Base
     end
 
     # Put performance hash, if it exists, into the sandbox for the running controller
-    @sb[:perf_options] = copy_hash(@perf_options) if @perf_options
+    @sb.perf_options = @perf_options if @perf_options
 
     # Save @assign hash in sandbox
     @sb[:assign] = @assign ? copy_hash(@assign) : nil
 
     # Save view sandbox variables
-    @sb[:current_page] = @current_page
-    @sb[:search_text] = @search_text
-    @sb[:detail_sortcol] = @detail_sortcol
-    @sb[:detail_sortdir] = @detail_sortdir
+    @sb.current_page = @current_page
+    @sb.search_text = @search_text
+    @sb.detail_sortcol = @detail_sortcol
+    @sb.detail_sortdir = @detail_sortdir
 
-    @sb[:tree_hosts] = nil if @sb[:tree_hosts] &&
+    @sb.tree_hosts = nil if @sb.tree_hosts &&
       (!%w{ems_folders descendant_vms}.include?(params[:display]) &&
         !%w{treesize tree_autoload_dynatree tree_autoload_quads}.include?(params[:action]))
-    @sb[:tree_vms] = nil if @sb[:tree_vms] &&
+    @sb.tree_vms = nil if @sb.tree_vms &&
       (!%w{ems_folders descendant_vms}.include?(params[:display]) &&
         !%w{treesize tree_autoload_dynatree tree_autoload_quads}.include?(params[:action]))
 
     # Set/clear sandbox (@sb) per controller in the session object
-    session[:sandboxes] ||= HashWithIndifferentAccess.new
-    session[:sandboxes][controller_name] = @sb.blank? ? nil : copy_hash(@sb)
+    session[:sandboxes][controller_name] = @sb.to_hash
 
     # Clear out pi_xml and pi from sandbox if not in policy controller or no longer need to hang on to policy import data, clearing it out incase user switched screen before importing data
     if session[:sandboxes][:miq_policy] && (request.parameters[:controller] != "miq_policy" || (request.parameters[:controller] == "miq_policy" && !params[:commit] && !params[:button]))

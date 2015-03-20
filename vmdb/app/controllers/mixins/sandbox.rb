@@ -25,7 +25,7 @@ module Sandbox
   end
 
   def x_active_tree
-    @sb[:active_tree]
+    @sb.active_tree
   end
 
   TREE_WHITELIST = %w"
