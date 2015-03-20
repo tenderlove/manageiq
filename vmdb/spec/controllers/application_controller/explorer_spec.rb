@@ -8,7 +8,7 @@ describe VmInfraController do
       it "root node" do
         active_node = "root"
 
-        controller.instance_variable_set(:@sb, {:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
+        controller.set_sandbox({:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
         res = controller.send(:valid_active_node, active_node)
         controller.send(:flash_errors?).should_not be_true
         res.should == active_node
@@ -18,7 +18,7 @@ describe VmInfraController do
         rec = FactoryGirl.create(:service_template_catalog)
         active_node = "stc-#{rec.id}"
 
-        controller.instance_variable_set(:@sb, {:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
+        controller.set_sandbox({:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
         res = controller.send(:valid_active_node, active_node)
         controller.send(:flash_errors?).should_not be_true
         res.should == active_node
@@ -28,7 +28,7 @@ describe VmInfraController do
         pending("handling invalid nodes") do
           active_node = "xxx"
 
-          controller.instance_variable_set(:@sb, {:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
+          controller.set_sandbox({:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
           res = controller.send(:valid_active_node, active_node)
           controller.send(:flash_errors?).should be_true
           res.should == "root"
@@ -39,7 +39,7 @@ describe VmInfraController do
         rec = FactoryGirl.create(:service_template_catalog)
         active_node = "stc-#{rec.id + 1}"
 
-        controller.instance_variable_set(:@sb, {:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
+        controller.set_sandbox({:trees => {active_tree => {:active_node => active_node}}, :active_tree => active_tree})
         res = controller.send(:valid_active_node, active_node)
         controller.send(:flash_errors?).should be_true
         res.should == "root"
@@ -75,7 +75,7 @@ describe VmInfraController do
 
     context "#x_build_node" do
       before :each do
-        controller.instance_variable_set(:@sb, {:trees => {:utilization_tree => {:active_node => nil, :open_nodes => []}}})
+        controller.set_sandbox({:trees => {:utilization_tree => {:active_node => nil, :open_nodes => []}}})
       end
 
       it "valid Cluster node" do
@@ -141,7 +141,7 @@ describe VmInfraController do
         vm = FactoryGirl.create(:vm_vmware)
         cluster.hosts = [host]
         cluster.vms = [vm]
-        controller.instance_variable_set(:@sb, {:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
+        controller.set_sandbox({:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
         options = {
             :tree => :utilization_tree,
             :type => :utilization,
@@ -159,7 +159,7 @@ describe VmInfraController do
     context "#x_get_tree_host_kids" do
       it "does not return child nodes for Host node in Utilization tree" do
         host = FactoryGirl.create(:host_with_default_resource_pool_with_vms)
-        controller.instance_variable_set(:@sb, {:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
+        controller.set_sandbox({:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
         options = {
             :tree => :utilization_tree,
             :type => :utilization,
@@ -228,7 +228,7 @@ describe VmInfraController do
         region = MiqRegion.my_region
         ems_cloud = FactoryGirl.create(:ems_amazon)
         ems_infra = FactoryGirl.create(:ems_redhat)
-        controller.instance_variable_set(:@sb, {:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
+        controller.set_sandbox({:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
         options = {
                     :tree => :utilization_tree,
                     :type => :utilization,
@@ -250,7 +250,7 @@ describe VmInfraController do
         ems_cloud = FactoryGirl.create(:ems_amazon)
         ems_infra = FactoryGirl.create(:ems_redhat)
         folder_node_id = {:id => "folder_e_xx-#{MiqRegion.compress_id(@region.id)}"}
-        controller.instance_variable_set(:@sb, {:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
+        controller.set_sandbox({:trees => {:utilization_tree => {:active_node => "root"}}, :active_tree => :utilization_tree})
         options = {
                     :tree => :utilization_tree,
                     :type => :utilization,
@@ -265,7 +265,7 @@ describe VmInfraController do
 
       it "Return Zones only in My Region" do
         my_region_zone = FactoryGirl.create(:zone)
-        controller.instance_variable_set(:@sb, {:trees =>
+        controller.set_sandbox({:trees =>
                                                     {:settings_tree => {:active_node => "root"}},
                                                 :active_tree => :utilization_tree})
         options = {
@@ -320,7 +320,7 @@ describe VmInfraController do
             'foo_tree' => (1..11).collect { |i| make_item(i) }
           }
         }
-        controller.instance_variable_set(:@sb, sb)
+        controller.set_sandbox(sb)
       end
 
       it 'adds new item into the history' do

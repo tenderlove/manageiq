@@ -11,7 +11,7 @@ describe ServiceController do
       svc = FactoryGirl.create(:service, :service_template => st, :name => "GemFire", :description => "VMware vFabric GEMFIRE")
 
       controller.instance_variable_set(:@record, svc)
-      controller.instance_variable_set(:@sb,
+      controller.set_sandbox(
         :trees => {
           :svcs_tree => {:active_node => "#{svc.id}"}
         },

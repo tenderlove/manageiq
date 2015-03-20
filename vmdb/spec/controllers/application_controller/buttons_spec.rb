@@ -72,13 +72,9 @@ describe ApplicationController do
                 }
         controller.instance_variable_set(:@edit, edit)
         session[:edit] = edit
-        controller.instance_variable_set(:@sb,
-                                           {:trees => {
-                                                        :ab_tree => {:active_node => "-ub-Host"}
-                                                      },
-                                            :active_tree => :ab_tree
-                                           }
-                                        )
+        sb = {:trees       => {:ab_tree => {:active_node => "-ub-Host"}},
+              :active_tree => :ab_tree}
+        controller.set_sandbox(sb)
         controller.stub(:ab_get_node_info)
         controller.stub(:replace_right_cell)
         controller.send(:button_create_update,"add")
@@ -100,7 +96,7 @@ describe ApplicationController do
       controller.instance_variable_set(:@_params, {:id => custom_button.id})
       controller.instance_variable_set(:@custom_button, custom_button)
       controller.instance_variable_set(:@temp, {:custom_button => custom_button})
-      controller.instance_variable_set(:@sb,
+      controller.set_sandbox(
                                        {:trees => {
                                            :ab_tree => {:active_node => "-ub-Vm_cb-10r51"}
                                        },
@@ -110,7 +106,7 @@ describe ApplicationController do
       controller.send(:button_set_form_vars)
       assigns(:edit)[:new][:target_class].should == ui_lookup(:model=>"Vm")
 
-      controller.instance_variable_set(:@sb,
+      controller.set_sandbox(
                                        {:trees => {
                                            :ab_tree => {:active_node => "xx-ab_Vm_cbg-10r96_cb-10r7"}
                                        },

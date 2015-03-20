@@ -23,7 +23,7 @@ describe VmOrTemplateController do
     it "snapshot node exists in tree" do
       controller.instance_variable_set(:@_params, :id => @snapshot.id)
       controller.instance_variable_set(:@temp, {})
-      controller.instance_variable_set(:@sb, @tree_hash)
+      controller.set_sandbox(@tree_hash)
       controller.should_receive(:render)
       controller.snap_pressed
       controller.send(:flash_errors?).should_not be_true
@@ -39,7 +39,7 @@ describe VmOrTemplateController do
     it "deleted node pressed in snapshot tree" do
       controller.instance_variable_set(:@_params, :id => "some_id")
       controller.instance_variable_set(:@temp, {})
-      controller.instance_variable_set(:@sb, @tree_hash)
+      controller.set_sandbox(@tree_hash)
       controller.should_receive(:build_snapshot_tree)
       controller.should_receive(:render)
       controller.snap_pressed

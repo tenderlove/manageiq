@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe ApplicationController do
   before do
-    controller.instance_variable_set(:@sb, {})
+    controller.set_sandbox({})
     ur = FactoryGirl.create(:miq_user_role)
     rptmenu = {:report_menus => [
                                     ["Configuration Management",["Hosts",["Hosts Summary", "Hosts Summary"]]]

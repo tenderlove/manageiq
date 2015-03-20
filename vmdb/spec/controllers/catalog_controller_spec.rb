@@ -31,7 +31,7 @@ describe CatalogController do
 
   context "#atomic_st_edit" do
     it "Atomic Service Template and it's Resource Actions are saved" do
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@_params, {:button => "save"})
       st = FactoryGirl.create(:service_template)
       retire_fqname = "ns/cls/inst"
@@ -60,7 +60,7 @@ describe CatalogController do
 
   context "#st_edit" do
     it "@record is cleared out after Service Template is added" do
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@_params, {:button => "add"})
       st = FactoryGirl.create(:service_template)
       controller.instance_variable_set(:@record, st)
@@ -79,7 +79,7 @@ describe CatalogController do
 
   context "#ot_edit" do
     before(:each) do
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@_params, :button => "save")
       controller.should_receive(:render)
       @new_name = "New Name"
@@ -128,7 +128,7 @@ describe CatalogController do
 
   context "#ot_copy" do
     it "Orchestration Template is copied" do
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@_params, :button => "save")
       controller.should_receive(:render)
       ot = FactoryGirl.create(:orchestration_template)
@@ -151,7 +151,7 @@ describe CatalogController do
 
   context "#ot_delete" do
     before(:each) do
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@_params, :pressed => "orchestration_template_remove")
     end
 
@@ -198,7 +198,7 @@ describe CatalogController do
         :key => "ot_add__new",
       }
       session[:edit] = edit
-      controller.instance_variable_set(:@sb, :trees => {:ot_tree => {:open_nodes => []}}, :active_tree => :ot_tree)
+      controller.set_sandbox(:trees => {:ot_tree => {:open_nodes => []}}, :active_tree => :ot_tree)
     end
 
     it "Orchestration Template is created" do

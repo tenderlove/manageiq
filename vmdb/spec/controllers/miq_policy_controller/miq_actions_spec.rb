@@ -6,7 +6,7 @@ describe MiqPolicyController do
     context "#action_edit" do
       before :each do
         @action = FactoryGirl.create(:miq_action, :name => "Test_Action")
-        controller.instance_variable_set(:@sb, {})
+        controller.set_sandbox({})
         controller.stub(:replace_right_cell)
         controller.stub(:action_build_cat_tree)
         controller.stub(:get_node_info)
@@ -26,7 +26,7 @@ describe MiqPolicyController do
       end
 
       it "Test cancel button" do
-        controller.instance_variable_set(:@sb, {:trees => {:action_tree => {:active_node => "a-#{@action.id}"}}, :active_tree => :action_tree})
+        controller.set_sandbox({:trees => {:action_tree => {:active_node => "a-#{@action.id}"}}, :active_tree => :action_tree})
         controller.instance_variable_set(:@_params, {:id => @action.id, :button => "cancel"})
         controller.action_edit
         assigns(:flash_array).first[:message].should include("cancelled")

@@ -35,7 +35,7 @@ describe ChargebackController do
 
     context "#cb_assign_set_form_vars" do
       it "returns tag for current assignments" do
-        controller.instance_variable_set(:@sb,
+        controller.set_sandbox(
                                          :active_tree => :cb_assignments_tree,
                                          :trees       => {:cb_assignments_tree => {:active_node => 'xx-Storage'}})
         controller.send(:cb_assign_set_form_vars)
@@ -45,7 +45,7 @@ describe ChargebackController do
 
       it "returns empty array for current_assignment when tag/category is not found" do
         @tag.destroy
-        controller.instance_variable_set(:@sb,
+        controller.set_sandbox(
                                          :active_tree => :cb_assignments_tree,
                                          :trees       => {:cb_assignments_tree => {:active_node => 'xx-Storage'}})
         controller.send(:cb_assign_set_form_vars)

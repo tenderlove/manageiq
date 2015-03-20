@@ -68,7 +68,7 @@ describe DashboardController do
       group = FactoryGirl.create(:miq_group, :miq_user_role => ur, :settings => {:dashboard_order => [ws.id]})
       user = FactoryGirl.create(:user, :userid => 'wilma', :miq_groups => [group])
 
-      controller.instance_variable_set(:@sb, {:active_db => ws.name})
+      controller.set_sandbox({:active_db => ws.name})
       controller.instance_variable_set(:@tabs, [])
       controller.instance_variable_set(:@temp, {})
       controller.stub(:role_allows)

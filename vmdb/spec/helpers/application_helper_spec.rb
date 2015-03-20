@@ -813,8 +813,8 @@ describe ApplicationHelper do
     end
 
     def setup_x_tree_history
-      @sb = { :history => { :testing => %w(some thing to test with) },
-              :active_tree => :testing }
+      @sb = Vmdb::Sandbox.create({ :history => { :testing => %w(some thing to test with) },
+              :active_tree => :testing })
     end
 
     %w(
@@ -1034,30 +1034,30 @@ describe ApplicationHelper do
       end
 
       it "and nodes < 2" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'root' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'root' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
 
-        @sb = { :trees => { :svcs_tree => {:active_node => '' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => '' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
       end
 
       it "and 2 nodes" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
       end
 
       it "and 3 nodes" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
       end
 
       it "and nodes > 3" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing_to_test' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing_to_test' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
       end
     end
@@ -1074,30 +1074,30 @@ describe ApplicationHelper do
       end
 
       it "and nodes < 3" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
 
-        @sb = { :trees => { :svcs_tree => {:active_node => '' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => '' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
       end
 
       it "and 3 nodes" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
       end
 
       it "and 4 nodes" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing_to_test' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing_to_test' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
       end
 
       it "and nodes > 4" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing_to_test_with' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing_to_test_with' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
       end
     end
@@ -1114,22 +1114,22 @@ describe ApplicationHelper do
       end
 
       it "and nodes <= 2" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'some_thing' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'some_thing' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
 
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
 
-        @sb = { :trees => { :svcs_tree => {:active_node => '' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => '' }},
+              :active_tree => :svcs_tree })
         subject.should be_false
       end
 
       it "and nodes > 2" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
-              :active_tree => :svcs_tree }
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
+              :active_tree => :svcs_tree })
         subject.should be_true
       end
     end
@@ -1146,15 +1146,15 @@ describe ApplicationHelper do
       end
 
       it "and @sb[:edit_typ] != 'add'" do
-        @sb = {:edit_typ => "something"}
+        @sb = Vmdb::Sandbox.create({:edit_typ => "something"})
         subject.should be_true
       end
 
       it "and @sb[:edit_typ] = 'add'" do
         # @sb[:trees][@sb[:active_tree]][:active_node] is required to pass the test.
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
               :active_tree => :svcs_tree,
-              :edit_typ => 'add' }
+              :edit_typ => 'add' })
 
         subject.should be_false
       end
@@ -1164,8 +1164,8 @@ describe ApplicationHelper do
       before do
         @id = "dialog_resource_remove"
         @edit = { :some => 'thing' }
-        @sb = { :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
-              :active_tree => :svcs_tree}
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'something_to_test' }},
+              :active_tree => :svcs_tree})
       end
 
       it "and !@edit" do
@@ -1183,8 +1183,8 @@ describe ApplicationHelper do
       end
 
       it "and active_node = 'root'" do
-        @sb = { :trees => { :svcs_tree => {:active_node => 'root' }},
-              :active_tree => :svcs_tree}
+        @sb = Vmdb::Sandbox.create({ :trees => { :svcs_tree => {:active_node => 'root' }},
+              :active_tree => :svcs_tree})
         subject.should be_true
       end
 
@@ -2262,8 +2262,8 @@ describe ApplicationHelper do
 
     it "when with 'history_1' and x_tree_history.length < 2" do
         # setup for x_tree_history
-        @sb = { :history => { :testing => %w(something) },
-                :active_tree => :testing }
+        @sb = Vmdb::Sandbox.create({ :history => { :testing => %w(something) },
+                :active_tree => :testing })
         build_toolbar_disable_button('history_1').should be_true
     end
 
@@ -2278,8 +2278,8 @@ describe ApplicationHelper do
       before(:each) { @record = AssignedServerRole.new }
 
       before do
-        @sb = { :active_tree => :diagnostics_tree,
-                :trees => { :diagnostics_tree => { :tree => :diagnostics_tree }}}
+        @sb = Vmdb::Sandbox.create({ :active_tree => :diagnostics_tree,
+                :trees => { :diagnostics_tree => { :tree => :diagnostics_tree }}})
         @server_role = ServerRole.new(:description=>"some description")
       end
 
@@ -3541,8 +3541,8 @@ describe ApplicationHelper do
 
   context "tree related methods" do
     before do
-      @sb = { :active_tree => :svcs_tree,
-              :trees => { :svcs_tree => { :tree => :svcs_tree }}}
+      @sb = Vmdb::Sandbox.create({ :active_tree => :svcs_tree,
+              :trees => { :svcs_tree => { :tree => :svcs_tree }}})
     end
 
     it "#x_node_set" do
@@ -3666,8 +3666,8 @@ describe ApplicationHelper do
     end
 
     it "#x_tree_history" do
-      @sb = { :history => { :svcs_tree => %w(service1 service2 service3) },
-              :active_tree => :svcs_tree }
+      @sb = Vmdb::Sandbox.create({ :history => { :svcs_tree => %w(service1 service2 service3) },
+              :active_tree => :svcs_tree })
       x_tree_history.should == %w(service1 service2 service3)
     end
   end
@@ -3807,9 +3807,9 @@ describe ApplicationHelper do
 
       before(:each) do
         @explorer = true
-        @sb = {:active_tree => "my_tree",
+        @sb = Vmdb::Sandbox.create({:active_tree => "my_tree",
                :trees       => {"my_tree" => {:active_node=>nil}}
-              }
+              })
       end
 
       it "for non custom toolbar controller" do
@@ -3902,8 +3902,8 @@ describe ApplicationHelper do
   describe "generate explorer toolbar file names" do
     context "#center_toolbar_filename_automate" do
       before do
-        @sb = {:active_tree => :ae_tree,
-               :trees       => {:ae_tree => {:tree => :ae_tree}}}
+        @sb = Vmdb::Sandbox.create({:active_tree => :ae_tree,
+               :trees       => {:ae_tree => {:tree => :ae_tree}}})
       end
 
       it "should return domains toolbar on root node" do

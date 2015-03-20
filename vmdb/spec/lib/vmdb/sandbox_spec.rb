@@ -1,6 +1,16 @@
 require "spec_helper"
 
 describe Vmdb::Sandbox do
+  context 'backwards compat' do
+    it 'calls methods for keys that should be methods' do
+      sb = Vmdb::Sandbox.new(:search_text => 'foo')
+      expect(sb.search_text).to eq('foo')
+
+      sb.search_text = 'bar'
+      expect(sb[:search_text]).to eq('bar')
+    end
+  end
+
   context 'initialized with existing session hash' do
     it 'knows active_tree' do
       sb = Vmdb::Sandbox.new(:active_tree => 'foo')

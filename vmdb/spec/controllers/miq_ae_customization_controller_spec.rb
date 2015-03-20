@@ -7,7 +7,7 @@ describe MiqAeCustomizationController do
 
   context "#get_node_info" do
     it "Don't need to validate active node when editing Dialogs" do
-      controller.instance_variable_set(:@sb, {:trees => {:dialog_edit_tree => {:active_node => "root"}}, :active_tree => :dialog_edit_tree})
+      controller.set_sandbox({:trees => {:dialog_edit_tree => {:active_node => "root"}}, :active_tree => :dialog_edit_tree})
       controller.should_not_receive(:valid_active_node)
       controller.should_receive(:dialog_edit_set_form_vars)
       controller.send(:get_node_info)
@@ -178,7 +178,7 @@ describe MiqAeCustomizationController do
     let(:sandbox_flash_messages) { nil }
 
     before do
-      controller.instance_variable_set(:@sb, {:flash_msg => sandbox_flash_messages})
+      controller.set_sandbox({:flash_msg => sandbox_flash_messages})
       bypass_rescue
     end
 

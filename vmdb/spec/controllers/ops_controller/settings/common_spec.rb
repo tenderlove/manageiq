@@ -32,7 +32,7 @@ describe OpsController do
           :active_tree => :settings_tree,
           :active_tab  => 'settings_smartproxy_affinity'
         }
-        controller.instance_variable_set(:@sb, tree_hash)
+        controller.set_sandbox(tree_hash)
         controller.instance_variable_set(:@selected_zone, @zone)
 
         @temp = {}

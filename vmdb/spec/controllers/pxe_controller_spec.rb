@@ -24,7 +24,7 @@ describe PxeController do
       pxe = FactoryGirl.create(:pxe_server)
       MiqServer.stub(:my_zone).and_return("default")
       controller.instance_variable_set(:@_params, :id => pxe.id)
-      controller.instance_variable_set(:@sb,
+      controller.set_sandbox(
                                        {:trees => {
                                                     :pxe_tree => {:active_node => "ps-#{pxe.id}"}
                                                    },

@@ -820,7 +820,7 @@ describe ReportController do
 
       it "rebuild dashboards tree" do
         pending "placeholder for future tests"
-        controller.instance_variable_set(:@sb,
+        controller.set_sandbox(
                                          {:trees => {
                                              :db_tree => {:active_node => "root"}
                                          },
@@ -1152,13 +1152,13 @@ describe ReportController do
     end
 
     it "Verify that Trending reports are excluded in widgets editor" do
-      controller.instance_variable_set(:@sb, :active_tree => :widgets_tree)
+      controller.set_sandbox(:active_tree => :widgets_tree)
       controller.send(:report_selection_menus)
       assigns(:reps).should eq([])
     end
 
     it "Verify that Trending reports are included in schedule menus editor" do
-      controller.instance_variable_set(:@sb, :active_tree => :schedules_tree)
+      controller.set_sandbox(:active_tree => :schedules_tree)
       controller.send(:report_selection_menus)
       assigns(:reps).count.should eq(2)
       assigns(:reps).should eq([["Report 1", 1], ["Report 2", 2]])

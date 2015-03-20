@@ -108,3 +108,10 @@ VCR.configure do |c|
   #c.debug_logger = File.open(Rails.root.join("log", "vcr_debug.log"), "w")
   #c.debug_logger = File.open(File.join(ENV['CC_BUILD_ARTIFACTS'], "vcr_debug.log"), "w") if ENV['CC_BUILD_ARTIFACTS']
 end
+
+require 'application_controller'
+class ApplicationController
+  def set_sandbox(hash)
+    @sb = Vmdb::Sandbox.create hash
+  end
+end

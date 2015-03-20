@@ -7,7 +7,7 @@ describe MiqAeClassController do
       cls = FactoryGirl.create(:miq_ae_class, :namespace_id => ns.id)
       ns_id = cls.namespace_id
       new = {:name => "New Name", :description => "New Description", :display_name => "Display Name", :inherits => "Some_Class"}
-      controller.instance_variable_set(:@sb,
+      controller.set_sandbox(
                                        {:trees => {
                                            :ae_tree => {:active_node => "aec-#{cls.id}"}
                                        },
@@ -23,7 +23,7 @@ describe MiqAeClassController do
     it "check if correct namespace_path is being set" do
       ns = FactoryGirl.create(:miq_ae_namespace)
       cls = FactoryGirl.create(:miq_ae_class, :namespace_id => ns.id)
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       id = "aec-#{cls.id}"
       fq_name = cls.fqname
       controller.send(:set_right_cell_text, id, cls)
@@ -75,7 +75,7 @@ describe MiqAeClassController do
       }
       controller.instance_variable_set(:@_params, :button => "save")
       controller.instance_variable_set(:@edit, edit)
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       session[:edit] = edit
       controller.stub(:replace_right_cell)
       controller.send(:domains_priority_edit)
@@ -108,7 +108,7 @@ describe MiqAeClassController do
       }
       controller.instance_variable_set(:@_params, :button => "copy", :id => cls1.id)
       controller.instance_variable_set(:@edit, edit)
-      controller.instance_variable_set(:@sb, :action => "miq_ae_class_copy")
+      controller.set_sandbox(:action => "miq_ae_class_copy")
       session[:edit] = edit
       controller.stub(:replace_right_cell)
       controller.send(:copy_objects)
@@ -135,7 +135,7 @@ describe MiqAeClassController do
       }
       controller.instance_variable_set(:@_params, :button => "copy", :id => cls1.id)
       controller.instance_variable_set(:@edit, edit)
-      controller.instance_variable_set(:@sb, :action => "miq_ae_class_copy")
+      controller.set_sandbox(:action => "miq_ae_class_copy")
       session[:edit] = edit
       controller.stub(:replace_right_cell)
       controller.should_receive(:render)
@@ -166,7 +166,7 @@ describe MiqAeClassController do
       }
       controller.instance_variable_set(:@_params, :button => "copy", :id => cls1.id)
       controller.instance_variable_set(:@edit, edit)
-      controller.instance_variable_set(:@sb, :action => "miq_ae_class_copy")
+      controller.set_sandbox(:action => "miq_ae_class_copy")
       session[:edit] = edit
       controller.stub(:replace_right_cell)
       controller.send(:copy_objects)
@@ -194,7 +194,7 @@ describe MiqAeClassController do
       }
       controller.instance_variable_set(:@_params, :button => "copy", :id => cls1.id)
       controller.instance_variable_set(:@edit, edit)
-      controller.instance_variable_set(:@sb, :action => "miq_ae_class_copy")
+      controller.set_sandbox(:action => "miq_ae_class_copy")
       session[:edit] = edit
       controller.stub(:replace_right_cell)
       controller.send(:copy_objects)
@@ -266,7 +266,7 @@ describe MiqAeClassController do
       context "when record does not exist" do
         it "sets active node back to root" do
           id = %w(aei some_id)
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => "aei-some_id"}})
           controller.instance_variable_set(:@temp, {})
@@ -284,7 +284,7 @@ describe MiqAeClassController do
 
         it "return instance record and check count of override instances being returned" do
           id = ["aei", miq_ae_instance.id]
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => id.join("-")}})
           controller.instance_variable_set(:@temp, {})
@@ -300,7 +300,7 @@ describe MiqAeClassController do
       context "when record does not exist" do
         it "sets active node back to root" do
           id = %w(aec some_id)
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => "aec-some_id"}})
           controller.instance_variable_set(:@temp, {})
@@ -317,7 +317,7 @@ describe MiqAeClassController do
 
         it "returns class record and check count of override classes being returned" do
           id = ["aec", miq_ae_class.id]
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => id.join("-")}})
           controller.instance_variable_set(:@temp, {})
@@ -333,7 +333,7 @@ describe MiqAeClassController do
       context "when record does not exist" do
         it "sets active node back to root" do
           id = %w(aem some_id)
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => "aem-some_id"}})
           controller.instance_variable_set(:@temp, {})
@@ -351,7 +351,7 @@ describe MiqAeClassController do
 
         it "returns method record and check count of override methods being returned" do
           id = ["aem", miq_ae_method.id]
-          controller.instance_variable_set(:@sb,
+          controller.set_sandbox(
                                            :active_tree => :ae_tree,
                                            :trees       => {:ae_tree => {:active_node => id.join("-")}})
           controller.instance_variable_set(:@temp, {})

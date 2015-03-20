@@ -18,7 +18,7 @@ describe ApplicationController do
                           :cpu => 2
                         }
                       }
-      controller.instance_variable_set(:@sb, sb)
+      controller.set_sandbox(sb)
       controller.stub(:initiate_wait_for_task)
       controller.send(:perf_planning_gen_data)
     end

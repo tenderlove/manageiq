@@ -2,7 +2,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe Sandbox do
   let(:sb) do
-    Object.new.extend(Sandbox).tap { |sb| sb.instance_eval { @sb = {} } }
+    Object.new.extend(Sandbox).tap { |sb|
+      sb.instance_eval { @sb = Vmdb::Sandbox.create({}) }
+    }
   end
 
   context '#x_active_tree=' do

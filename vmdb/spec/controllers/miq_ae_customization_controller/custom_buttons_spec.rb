@@ -8,7 +8,7 @@ describe MiqAeCustomizationController do
         custom_button = FactoryGirl.create(:custom_button, :applies_to_class => "Host", :name => "Some Name")
         target_classes = {}
         CustomButton.button_classes.each{|db| target_classes[db] = ui_lookup(:model=>db)}
-        controller.instance_variable_set(:@sb, {:target_classes => target_classes})
+        controller.set_sandbox({:target_classes => target_classes})
         controller.instance_variable_set(:@temp, {})
         controller.send(:ab_get_node_info, "xx-ab_Host_cbg-10r95_cb-#{custom_button.id}")
         assigns(:resolve)[:new][:target_class].should == "Host"

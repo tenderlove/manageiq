@@ -4,7 +4,7 @@ include UiConstants
 describe ApplicationController do
 
   before :each do
-    controller.instance_variable_set(:@sb, {})
+    controller.set_sandbox({})
   end
 
   context "Verify removal of tokens from expressions" do

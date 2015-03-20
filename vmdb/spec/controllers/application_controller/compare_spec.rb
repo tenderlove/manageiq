@@ -5,7 +5,7 @@ describe ApplicationController do
     it "resets @display to main" do
       vm = FactoryGirl.create(:vm_vmware, :name => "My VM")
       controller.instance_variable_set(:@display, "vms")
-      controller.instance_variable_set(:@sb, {})
+      controller.set_sandbox({})
       controller.instance_variable_set(:@drift_obj, vm)
       controller.stub(:identify_obj)
       controller.stub(:drift_state_timestamps)

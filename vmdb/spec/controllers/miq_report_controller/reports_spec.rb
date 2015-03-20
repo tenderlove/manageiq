@@ -19,7 +19,7 @@ describe ReportController do
         it "check existence of flash message when tab is changed to #{title} without selecting fields" do
           user = FactoryGirl.create(:user)
           session[:userid] = user.userid
-          controller.instance_variable_set(:@sb, {})
+          controller.set_sandbox({})
           controller.instance_variable_set(:@edit, :new => {:fields => []})
           controller.instance_variable_set(:@_params, :tab => "new_#{tab_number}")
           controller.send(:check_tabs)
@@ -32,7 +32,7 @@ describe ReportController do
         it "flash messages should be nil when tab is changed to #{title} after selecting fields" do
           user = FactoryGirl.create(:user)
           session[:userid] = user.userid
-          controller.instance_variable_set(:@sb, {})
+          controller.set_sandbox({})
           controller.instance_variable_set(:@edit, :new => {
                                                       :fields  => [["Date Created", "Vm-ems_created_on"]],
                                                       :sortby1 => "some_field"

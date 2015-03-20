@@ -1,7 +1,16 @@
 require 'delegate'
+require 'set'
+require 'active_support/deprecation'
 
 module Vmdb
   class Sandbox < DelegateClass(Hash)
+    ATTRIBUTES = Set.new(%i(
+      current_page search_text detail_sortcol detail_sortdir tree_hosts tree_vms
+      perf_options
+    ))
+
+    RESET = ATTRIBUTES.collect { |a| :"#{a}=" }
+
     def self.create(hash)
       new(hash.blank? ? {} : hash.deep_clone)
     end
@@ -22,8 +31,12 @@ module Vmdb
     end
 
     def [] key
-      puts "OMG #{key} : #{caller.first}"
-      super
+      if ATTRIBUTES.include? key
+        ActiveSupport::Deprecation.warn "@sb[:#{key}] is deprecated, please switch to @sb.#{key}"
+        send key
+      else
+        super
+      end
     end
 
     def active_tree
@@ -56,10 +69,7 @@ module Vmdb
     end
 
     def reset!
-      %i( current_page= search_text= detail_sortcol= detail_sortdir= tree_hosts=
-          tree_vms= current_page= perf_options= ).each do |key|
-        send key, nil
-      end
+      RESET.each { |key| send key, nil }
     end
 
     private

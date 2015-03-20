@@ -15,13 +15,13 @@ describe "report/_report_list.html.haml" do
                   ["Folder 2",[["Folder2-1",["rep 5","rep 6"]],
                                ["Folder2-2",["rep 7","rep 8"]]]]
                 ]
-    assign(:sb, {
+    assign(:sb, Vmdb::Sandbox.create({
                   :active_accord => :reports,
                   :active_tree => :reports_tree,
                   :rep_details => rep_details,
                   :rpt_menu => rpt_menu,
                   :trees => {:reports_tree => {:active_node => "xx-1_xx-1-0"}}
-                }
+                })
           )
   end
 

@@ -14,7 +14,7 @@ describe MiqAeCustomizationController do
                                              :buttons          => "submit,reset,cancel"
                                    )
 
-        controller.instance_variable_set(:@sb,
+        controller.set_sandbox(
                                          {:trees => {
                                           :dlg_tree => {:active_node => "#{dialog.id}"}
                                          },
@@ -60,7 +60,7 @@ describe MiqAeCustomizationController do
           }
         }
         controller.instance_variable_set(:@_params, :button => "add")
-        controller.instance_variable_set(:@sb, tree_hash)
+        controller.set_sandbox(tree_hash)
         new = {:label => "a1", :description => "a1", :buttons => ["submit"], :tabs => []}
         edit = {
           :dialog         => @dialog,

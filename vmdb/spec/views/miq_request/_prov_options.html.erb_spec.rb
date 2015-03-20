@@ -48,7 +48,7 @@ describe 'miq_request/_prov_options.html.haml' do
       }}
       sb[:def_prov_options] = sb[:prov_options]
       sb[:def_prov_options][:MiqProvisionRequest][:applied_states] = %w(pending_approval)
-      view.instance_variable_set(:@sb, sb)
+      view.instance_variable_set(:@sb, Vmdb::Sandbox.create(sb))
     end
 
     it 'for admin' do
@@ -94,7 +94,7 @@ describe 'miq_request/_prov_options.html.haml' do
       }}
       sb[:def_prov_options] = sb[:prov_options]
       sb[:def_prov_options][:MiqProvisionRequest][:applied_states] = %w(pending_approval)
-      view.instance_variable_set(:@sb, sb)
+      view.instance_variable_set(:@sb, Vmdb::Sandbox.create(sb))
 
       User.stub(:current_user => desktop)
       render
@@ -121,7 +121,7 @@ describe 'miq_request/_prov_options.html.haml' do
       }}
       sb[:def_prov_options] = sb[:prov_options]
       sb[:def_prov_options][:MiqProvisionRequest][:applied_states] = %w(pending_approval)
-      view.instance_variable_set(:@sb, sb)
+      view.instance_variable_set(:@sb, Vmdb::Sandbox.create(sb))
 
       User.stub(:current_user => vm_user)
       render

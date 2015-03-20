@@ -2557,6 +2557,7 @@ class ApplicationController < ActionController::Base
         !%w{treesize tree_autoload_dynatree tree_autoload_quads}.include?(params[:action]))
 
     # Set/clear sandbox (@sb) per controller in the session object
+    session[:sandboxes] ||= HashWithIndifferentAccess.new
     session[:sandboxes][controller_name] = @sb.to_hash
 
     # Clear out pi_xml and pi from sandbox if not in policy controller or no longer need to hang on to policy import data, clearing it out incase user switched screen before importing data

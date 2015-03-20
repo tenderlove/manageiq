@@ -10,7 +10,7 @@ shared_examples "logs_collect" do |type|
       :diag_selected_id => instance_variable_get("@#{type}").id,
       :active_tab       => "diagnostics_roles_servers"
     }
-    controller.instance_variable_set(:@sb, sb_hash)
+    controller.set_sandbox(sb_hash)
     controller.instance_variable_set(:@temp, {})
   end
 
@@ -103,7 +103,7 @@ describe OpsController do
       @miq_server.update_attributes(:status => "stopped")
       controller.stub(:build_server_tree)
       controller.instance_variable_set(:@temp, {})
-      controller.instance_variable_set(:@sb, sb_hash)
+      controller.set_sandbox(sb_hash)
 
       controller.should_receive(:render)
 
@@ -137,7 +137,7 @@ describe OpsController do
           :key => "logdepot_edit__#{server_id}"
         }
         session[:edit] = edit
-        controller.instance_variable_set(:@sb, sb_hash)
+        controller.set_sandbox(sb_hash)
         controller.instance_variable_set(:@_params, :button => "validate", :id => server_id)
         controller.should_receive(:render)
         expect(response.status).to eq(200)
