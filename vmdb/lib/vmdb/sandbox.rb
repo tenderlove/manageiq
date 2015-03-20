@@ -42,23 +42,24 @@ module Vmdb
         copy.delete :perf_options
       end
 
-      if current_page
-        copy[:current_page] = current_page
-      else
-        copy.delete :current_page
+      %i( current_page search_text detail_sortcol detail_sortdir tree_hosts
+          tree_vms ).each do |key|
+        value = send key
+        if value
+          copy[key] = value
+        else
+          copy.delete key
+        end
       end
 
-      copy[:search_text]    = search_text
-      copy[:detail_sortcol] = detail_sortcol
-      copy[:detail_sortdir] = detail_sortdir
-      copy[:tree_hosts]     = tree_hosts
-      copy[:tree_vms]       = tree_vms
       copy
     end
 
     def reset!
-      self.current_page = nil
-      self.perf_options = nil
+      %i( current_page= search_text= detail_sortcol= detail_sortdir= tree_hosts=
+          tree_vms= current_page= perf_options= ).each do |key|
+        send key, nil
+      end
     end
 
     private

@@ -126,16 +126,19 @@ describe Vmdb::Sandbox do
     end
 
     context 'reset' do
-      it 'nils out current_page' do
-        sb = Vmdb::Sandbox.new(:current_page => 'foo')
-        sb.reset!
-        expect(sb.current_page).to be_nil
-      end
+      %i( current_page search_text detail_sortcol detail_sortdir tree_hosts
+          tree_vms ).each do |key|
+        it "nils out #{key}" do
+          sb = Vmdb::Sandbox.new(key => 'foo')
+          sb.reset!
+          expect(sb.send(key)).to be_nil
+        end
 
-      it 'removes current_page from to_hash' do
-        sb = Vmdb::Sandbox.new(:current_page => 'foo')
-        sb.reset!
-        expect(sb.to_hash.key?(:current_page)).to be(false)
+        it "removes #{key} from to_hash" do
+          sb = Vmdb::Sandbox.new(key => 'foo')
+          sb.reset!
+          expect(sb.to_hash.key?(key)).to be(false)
+        end
       end
 
       it 'nils out perf_options' do
