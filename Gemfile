@@ -4,8 +4,8 @@ eval_gemfile(File.expand_path("gems/pending/Gemfile", __dir__))
 # VMDB specific gems
 #
 
-gem "rails", :path => '/Users/aaron/git/rails'
-gem "arel", :path => '/Users/aaron/git/arel'
+gem "rails", :github => 'rails/rails'
+gem "arel", :github => 'rails/arel'
 gem "activerecord-deprecated_finders", "~>1.0.4",     :require => "active_record/deprecated_finders"
 
 # Client-side dependencies
