@@ -4,7 +4,8 @@ eval_gemfile(File.expand_path("gems/pending/Gemfile", __dir__))
 # VMDB specific gems
 #
 
-gem "rails",                           RAILS_VERSION
+gem "rails", :path => '/Users/aaron/git/rails'
+gem "arel", :path => '/Users/aaron/git/arel'
 gem "activerecord-deprecated_finders", "~>1.0.4",     :require => "active_record/deprecated_finders"
 
 # Client-side dependencies
@@ -12,7 +13,7 @@ gem "jquery-rjs", "=0.1.1", :git => 'https://github.com/amatsuda/jquery-rjs.git'
 gem 'angularjs-rails', '~>1.3.15'
 gem 'angular-ui-bootstrap-rails', '~> 0.13.0'
 gem 'momentjs-rails', '~> 2.10.3'
-gem 'jquery-rails', "~>4.0.4"
+gem 'jquery-rails', :github => 'rails/jquery-rails'
 gem 'jquery-hotkeys-rails'
 gem 'codemirror-rails', "=4.2"
 gem 'lodash-rails', '~> 3.10.0'
@@ -40,7 +41,7 @@ gem "acts_as_tree",                   "~>2.1.0"  # acts_as_tree needs to be requ
 # See miq_expression_spec Date/Time Support examples.
 # https://github.com/jeremyevans/ruby-american_date
 gem "american_date"
-gem "default_value_for",              "~>3.0.1"
+gem "default_value_for",              :github => 'tenderlove/default_value_for'
 gem "thin",                           "~>1.3.1"  # Used by rails server through rack
 gem "bcrypt",                         "3.1.10"
 gem 'outfielding-jqplot-rails',       "= 1.0.8"
@@ -50,7 +51,7 @@ gem 'mime-types'
 # Needed by the REST API
 gem "jbuilder",                       "~>2.0.7"
 gem "gettext_i18n_rails"
-gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master'
+gem 'rails-i18n', github: 'tenderlove/rails-i18n', branch: 'master'
 gem 'acts_as_tenant',                 "~>0.3.9"
 gem 'paperclip',                      "~>4.3.0"
 
